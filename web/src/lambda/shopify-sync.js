@@ -1,36 +1,74 @@
-const getRawBody = require("raw-body")
-const crypto = require("crypto")
 require("dotenv").config()
 
-console.log(process.env.secretKey)
+const crypto = require("crypto")
+const sanityClient = require("@sanity/client")
+const fetch = require("node-fetch")
+
+const { PRODUCT_QUERY } = require("./queries")
+const { preparePayload, statusReturn } = require("./helpers")
+const { shopifyConfig } = require("./config")
+
+const {
+  SANITY_PROJECT_ID,
+  SANITY_DATASET,
+  SANITY_API_TOKEN,
+  SHOPIFY_SECRET,
+  SHOPIFY_API_KEY,
+  SHOPIFY_API_PASSWORD,
+  SHOPIFY_URL,
+} = process.env
+
+const client = sanityClient({
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_DATASET,
+  token: SANITY_API_TOKEN,
+  useCdn: false,
+})
 
 export const handler = async event => {
-  console.log(event)
-  res.sendStatus(200)
+  if (event.httpMethod !== "POST" || !event.body) {
+    return statusReturn(400, "")
+  }
+  let data
+
+  try {
+    data = JSON.parse(event.body)
+    const hash = crypto
+      .createHmac("sha256", SHOPIFY_SECRET)
+      .update(body, "utf8", "hex")
+      .digest("base64")
+
+    if (generatedHash !== hmac) {
+      return statusReturn(400, { error: "Invalid Webhook" })
+    }
+  } catch (error) {
+    console.error("JSON parsing error:", error)
+    return statusReturn(400, { error: "Bad request body" })
+  }
+
+  // Create / Update
+  if (data.hasOwnProperty("title") && data.hasOwnProperty("handle")) {
+    // Build our initial product
+    const payload = preparePayload(PRODUCT_QUERY, {
+      id: data.admin_graphql_api_id,
+    })
+
+    const product = await fetch(
+      `https://${SHOPIFY_API_KEY}:${SHOPIFY_API_PASSWORD}@${SHOPIFY_URL}/admin/api/2020-10/graphql.json`,
+      {
+        method: "POST",
+        headers: shopifyConfig,
+        data: JSON.stringify(payload),
+      }
+    )
+    console.log(product)
+    return statusReturn(200, {})
+  }
+  // Delete
+  else if (
+    data.hasOwnProperty("id") &&
+    !data.hasOwnProperty("title") &&
+    !data.hasOwnProperty("handle")
+  ) {
+  }
 }
-// app.post('/webhooks/orders/create', async (req, res) => {
-//   // We'll compare the hmac to our own hash
-//   const hmac = req.get('X-Shopify-Hmac-Sha256');
-
-//   // Use raw-body to get the body (buffer)
-//   const body = await getRawBody(req);
-
-//   // Create a hash using the body and our key
-//   const hash = crypto
-//     .createHmac('sha256', process.env.secretKey)
-//     .update(body, 'utf8', 'hex')
-//     .digest('base64');
-
-//   // Compare our hash to Shopify's hash
-//   if (hash === hmac) {
-//     // It's a match! All good
-//     console.log('Phew, it came from Shopify!');
-//     res.sendStatus(200);
-//   } else {
-//     // No match! This request didn't originate from Shopify
-//     console.log('Danger! Not from Shopify!');
-//     res.sendStatus(403);
-//   }
-// });
-
-// app.listen(3000, () => console.log('running on port 3000'));
