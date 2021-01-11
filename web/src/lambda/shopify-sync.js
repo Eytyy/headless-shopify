@@ -35,7 +35,7 @@ export const handler = async event => {
     data = JSON.parse(event.body)
     const hash = crypto
       .createHmac("sha256", SHOPIFY_SECRET)
-      .update(body, "utf8", "hex")
+      .update(event.body, "utf8", "hex")
       .digest("base64")
 
     if (generatedHash !== hmac) {
@@ -52,17 +52,21 @@ export const handler = async event => {
     const payload = preparePayload(PRODUCT_QUERY, {
       id: data.admin_graphql_api_id,
     })
-
-    const product = await fetch(
-      `https://${SHOPIFY_API_KEY}:${SHOPIFY_API_PASSWORD}@${SHOPIFY_URL}/admin/api/2020-10/graphql.json`,
-      {
-        method: "POST",
-        headers: shopifyConfig,
-        data: JSON.stringify(payload),
-      }
-    )
-    console.log(product)
-    return statusReturn(200, {})
+    try {
+      const product = await fetch(
+        `https://${SHOPIFY_API_KEY}:${SHOPIFY_API_PASSWORD}@${SHOPIFY_URL}/admin/api/2020-10/graphql.json`,
+        {
+          method: "POST",
+          headers: shopifyConfig,
+          data: JSON.stringify(payload),
+        }
+      )
+      console.log(product)
+      return statusReturn(200, {})
+    } catch (error) {
+      console.log(error)
+      return statusReturn(400, {})
+    }
   }
   // Delete
   else if (
