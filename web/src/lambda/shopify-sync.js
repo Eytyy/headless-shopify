@@ -1,8 +1,7 @@
 const getRawBody = require("raw-body")
 const crypto = require("crypto")
-require("dotenv").config
+require("dotenv").config()
 
-dotenv.config()
 console.log(process.env.secretKey)
 
 export const handler = async event => {
