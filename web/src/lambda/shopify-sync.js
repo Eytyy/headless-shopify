@@ -39,7 +39,7 @@ export const handler = async event => {
       .update(event.body, "utf8", "hex")
       .digest("base64")
 
-    if (generatedHash !== hmac) {
+    if (hash !== hmac) {
       return statusReturn(400, { error: "Invalid Webhook" })
     }
   } catch (error) {
