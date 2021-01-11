@@ -30,6 +30,7 @@ export const handler = async event => {
     return statusReturn(400, "")
   }
   let data
+  const hmac = event.headers["x-shopify-hmac-sha256"]
 
   try {
     data = JSON.parse(event.body)
@@ -38,7 +39,7 @@ export const handler = async event => {
       .update(event.body, "utf8", "hex")
       .digest("base64")
 
-    if (hash !== hmac) {
+    if (generatedHash !== hmac) {
       return statusReturn(400, { error: "Invalid Webhook" })
     }
   } catch (error) {
