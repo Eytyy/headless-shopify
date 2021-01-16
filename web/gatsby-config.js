@@ -1,7 +1,20 @@
 require("dotenv").config()
 const isProd = process.env.NODE_ENV === "production"
+const { createProxyMiddleware } = require("http-proxy-middleware")
 
 module.exports = {
+  // Handles local dev for the netlify functions
+  developMiddleware: app => {
+    app.use(
+      "/.netlify/functions/",
+      createProxyMiddleware({
+        target: "http://localhost:34567",
+        pathRewrite: {
+          "/.netlify/functions/": "",
+        },
+      })
+    )
+  },
   siteMetadata: {
     title: `Gatsby Default Starter`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,

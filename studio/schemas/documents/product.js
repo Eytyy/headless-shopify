@@ -6,7 +6,7 @@ export default {
   fieldsets: [
     {
       name: 'main',
-      title: 'Main Content',
+      title: 'Main',
       options: {
         collapsible: true,
         collapsed: false,
@@ -14,7 +14,7 @@ export default {
     },
     {
       name: 'shopify',
-      title: 'Shopify Content',
+      title: 'Shopify',
       description: 'Read only',
       options: {
         collapsible: true,
@@ -37,9 +37,8 @@ export default {
 
   preview: {
     select: {
-      title: 'title',
-      manufactor: 'manufactor.title',
-      media: 'defaultProductVariant.images[0]',
+      title: 'main.title',
+      media: 'main.mainImage',
     },
   },
 };

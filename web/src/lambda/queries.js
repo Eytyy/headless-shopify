@@ -31,3 +31,24 @@ exports.PRODUCT_QUERY = `query getProduct($id: ID!) {
   }
 }
 `
+
+exports.PRODUCT_UPDATE = `mutation productMetaUpdate($input: ProductInput!) {
+  productUpdate(input: $input) {
+    product {
+      metafields(first: 100) {
+        edges {
+          node {
+            id
+            namespace
+            key
+            value
+          }
+        }
+      }
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+  `

@@ -11,6 +11,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'variantTitle',
+      title: 'Variant Title',
+      type: 'string',
+    },
+    {
       title: 'Weight in grams',
       name: 'grams',
       readOnly: true,

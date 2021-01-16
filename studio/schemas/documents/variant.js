@@ -10,18 +10,18 @@ export default {
   fields: [
     {
       type: 'variantContent',
-      name: 'variantContent',
+      name: 'main',
       fieldset: 'main',
     },
     {
       type: 'defaultVariantContent',
-      name: 'defaultVariant',
+      name: 'shopify',
       fieldset: 'shopify',
     },
   ],
   preview: {
     select: {
-      title: 'content.main.title',
+      title: 'main.title',
       media: 'mainImage',
     },
   },
