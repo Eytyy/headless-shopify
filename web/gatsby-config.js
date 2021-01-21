@@ -1,4 +1,6 @@
 require("dotenv").config()
+const clientConfig = require("./client-config")
+
 const isProd = process.env.NODE_ENV === "production"
 const { createProxyMiddleware } = require("http-proxy-middleware")
 
@@ -16,9 +18,9 @@ module.exports = {
     )
   },
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Headless Shopify Starter`,
+    description: `Headless Shopify starter. This barebones starter ships with the main Gatsby and Shopify configuration files you might need.`,
+    author: `@eytyy`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -34,9 +36,7 @@ module.exports = {
     {
       resolve: "gatsby-source-sanity",
       options: {
-        projectId: process.env.SANITY_PROJECT_ID,
-        dataset: process.env.SANITY_DATASET,
-        token: process.env.SANITY_READ_TOKEN,
+        ...clientConfig.sanity,
         watchMode: !isProd,
         overlayDrafts: !isProd,
       },

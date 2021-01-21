@@ -1,6 +1,6 @@
 export default {
   title: 'Default Variant',
-  name: 'defaultVariantContent',
+  name: 'variantDefaultContent',
   type: 'object',
   description: `This information is sync'd from Shopify and should not be modified here but is mostly just a reference.`,
   fields: [

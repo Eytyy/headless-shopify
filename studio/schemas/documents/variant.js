@@ -3,26 +3,16 @@ export default {
   title: 'Variant',
   type: 'document',
   __experimental_actions: ['update', 'publish', 'delete'],
-  fieldsets: [
-    {name: 'main', title: 'Main'},
-    {name: 'shopify', title: 'Shopify'},
-  ],
   fields: [
     {
+      name: 'content',
       type: 'variantContent',
-      name: 'main',
-      fieldset: 'main',
-    },
-    {
-      type: 'defaultVariantContent',
-      name: 'shopify',
-      fieldset: 'shopify',
     },
   ],
   preview: {
     select: {
-      title: 'main.title',
-      media: 'mainImage',
+      title: 'content.main.title',
+      media: 'content.main.mainImage',
     },
   },
 };

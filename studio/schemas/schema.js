@@ -7,12 +7,17 @@ import schemaTypes from 'all:part:@sanity/base/schema-type';
 import blockContent from './blockContent';
 import category from './documents/category';
 import product from './documents/product';
-import vendor from './documents/vendor';
+import maker from './documents/maker';
 import variant from './documents/variant';
+import color from './documents/color';
+import material from './documents/material';
 
-import defaultVariantContent from './structure/defaultVariantContent';
 import productContent from './structure/productContent';
+import productMainContent from './structure/productMainContent';
 import productDefaultContent from './structure/productDefaultContent';
+
+import variantDefaultContent from './structure/variantDefaultContent';
+import variantMainContent from './structure/variantMainContent';
 import variantContent from './structure/variantContent';
 
 import localeString from './locale/String';
@@ -29,8 +34,10 @@ export default createSchema({
     // The following are document types which will appear
     // in the studio.
     product,
-    vendor,
+    maker,
     category,
+    color,
+    material,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas
     blockContent,
@@ -38,9 +45,12 @@ export default createSchema({
     localeBlockContent,
     localeString,
     variant,
-    defaultVariantContent,
-    productContent,
-    productDefaultContent,
     variantContent,
+    variantMainContent,
+    variantDefaultContent,
+
+    productContent,
+    productMainContent,
+    productDefaultContent,
   ]),
 });

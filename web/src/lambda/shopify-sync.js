@@ -1,10 +1,12 @@
 require("dotenv").config()
 
-const crypto = require("crypto")
-const sanityClient = require("@sanity/client")
-const fetch = require("node-fetch").default
 const axios = require("axios")
+const sanityClient = require("@sanity/client")
+const crypto = require("crypto")
+
 const jsondiffpatch = require("jsondiffpatch")
+
+const fetch = require("node-fetch").default
 
 const { PRODUCT_QUERY, PRODUCT_UPDATE } = require("./queries")
 const { preparePayload, statusReturn } = require("./helpers")
@@ -47,19 +49,19 @@ const updateEverything = async (data, inputObject) => {
 
   // Select shopify specific fields to update
   const productSchema = {
-    "shopify.productId": data.id,
-    "shopify.title": data.title,
-    "shopify.defaultPrice": price,
-    "shopify.defaultVariant.title": title,
-    "shopify.defaultVariant.price": price,
-    "shopify.defaultVariant.sku": sku,
-    "shopify.defaultVariant.variantId": id,
-    "shopify.defaultVariant.taxable": taxable,
-    "shopify.defaultVariant.inventoryQuantity": inventory_quantity,
-    "shopify.defaultVariant.inventoryPolicy": inventory_policy,
-    "shopify.defaultVariant.barcode": barcode,
-    "main.title": data.title,
-    "main.slug.current": data.handle,
+    "content.shopify.productId": data.id,
+    "content.shopify.title": data.title,
+    "content.shopify.defaultPrice": price,
+    "content.shopify.defaultVariant.title": title,
+    "content.shopify.defaultVariant.price": price,
+    "content.shopify.defaultVariant.sku": sku,
+    "content.shopify.defaultVariant.variantId": id,
+    "content.shopify.defaultVariant.taxable": taxable,
+    "content.shopify.defaultVariant.inventoryQuantity": inventory_quantity,
+    "content.shopify.defaultVariant.inventoryPolicy": inventory_policy,
+    "content.shopify.defaultVariant.barcode": barcode,
+    "content.main.title": data.title,
+    "content.main.slug.current": data.handle,
   }
 
   const metaPayLoad = preparePayload(PRODUCT_UPDATE, inputObject)
@@ -89,7 +91,7 @@ const updateEverything = async (data, inputObject) => {
           .then(buffer => client.assets.upload("image", buffer))
           .then(assetDocument => {
             const productImageObject = {
-              "shopify.image": {
+              "content.shopify.image": {
                 _type: "image",
                 asset: { _ref: assetDocument._id, _type: "reference" },
               },
@@ -112,17 +114,17 @@ const updateEverything = async (data, inputObject) => {
     }))
 
     const productVariantSchema = data.variants.map(variant => ({
-      "main.title": data.title,
-      "shopify.productId": data.id,
-      "shopify.variantId": id,
-      "shopify.title": data.title,
-      "shopify.variantTitle": variant.title,
-      "shopify.taxable": variant.taxable,
-      "shopify.inventoryQuantity": variant.inventory_quantity,
-      "shopify.inventoryPolicy": variant.inventory_policy,
-      "shopify.barcode": variant.barcode,
-      "shopify.sku": variant.sku,
-      "shopify.price": variant.price,
+      "content.main.title": data.title,
+      "content.shopify.productId": data.id,
+      "content.shopify.variantId": id,
+      "content.shopify.title": data.title,
+      "content.shopify.variantTitle": variant.title,
+      "content.shopify.taxable": variant.taxable,
+      "content.shopify.inventoryQuantity": variant.inventory_quantity,
+      "content.shopify.inventoryPolicy": variant.inventory_policy,
+      "content.shopify.barcode": variant.barcode,
+      "content.shopify.sku": variant.sku,
+      "content.shopify.price": variant.price,
     }))
 
     // Create Variant
@@ -140,7 +142,7 @@ const updateEverything = async (data, inputObject) => {
     // Include variants on product document
     tx = tx.patch(data.id.toString(), p =>
       p.set({
-        "shopify.variants": data.variants.map(variant => ({
+        "content.shopify.variants": data.variants.map(variant => ({
           _type: "reference",
           _ref: variant.id.toString(),
           _key: variant.id.toString(),
@@ -166,6 +168,7 @@ export const handler = async event => {
   if (event.httpMethod !== "POST" || !event.body) {
     return statusReturn(400, "")
   }
+
   let data
   const hmac = event.headers["x-shopify-hmac-sha256"]
 
@@ -262,6 +265,7 @@ export const handler = async event => {
       return statusReturn(200, { error: "Problem looking up Product" })
     }
   }
+
   // Delete
   else if (
     data.hasOwnProperty("id") &&

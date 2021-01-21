@@ -7,6 +7,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
+      readOnly: true,
     },
     {
       name: 'id',
@@ -14,11 +15,19 @@ export default {
       type: 'string',
       description: 'This comes from Shopify and cannot be changed',
       readOnly: true,
+      hidden: true,
+    },
+    {
+      name: 'deleted',
+      title: 'Deleted',
+      type: 'boolean',
+      description: 'This can be a flag set if the item is deleted from Shopify',
     },
     {
       name: 'image',
       type: 'image',
       title: 'Shopify Image',
+      description: 'This comes from Shopify and cannot be changed',
       readOnly: true,
     },
     {
@@ -44,7 +53,7 @@ export default {
     },
     {
       name: 'defaultVariant',
-      type: 'defaultVariantContent',
+      type: 'variantDefaultContent',
     },
   ],
 };

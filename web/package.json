@@ -5,7 +5,11 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
+    "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^2.1.4",
+    "@sanity/image-url": "^0.140.19",
     "axios": "^0.21.1",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
@@ -29,6 +33,9 @@
     "react-helmet": "^6.1.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.12.12",
+    "@emotion/babel-plugin": "^11.1.2",
+    "babel-preset-gatsby": "^0.10.0",
     "prettier": "2.2.1"
   },
   "keywords": [

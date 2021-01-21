@@ -1,25 +1,23 @@
+import Tabs from 'sanity-plugin-tabs';
+
 export default {
-  title: 'Variant Content',
   name: 'variantContent',
   type: 'object',
+  inputComponent: Tabs,
+  fieldsets: [
+    {name: 'main', title: 'Main'},
+    {name: 'shopify', title: 'Shopify'},
+  ],
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
+      type: 'variantMainContent',
+      name: 'main',
+      fieldset: 'main',
     },
     {
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
-      name: 'variantDescription',
-      title: 'Variant Description',
-      type: 'blockContent',
+      type: 'variantDefaultContent',
+      name: 'shopify',
+      fieldset: 'shopify',
     },
   ],
 };
