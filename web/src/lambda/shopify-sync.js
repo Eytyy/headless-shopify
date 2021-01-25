@@ -116,7 +116,7 @@ const updateEverything = async (data, inputObject) => {
     const productVariantSchema = data.variants.map(variant => ({
       "content.main.title": data.title,
       "content.shopify.productId": data.id,
-      "content.shopify.variantId": id,
+      "content.shopify.variantId": variant.id,
       "content.shopify.title": data.title,
       "content.shopify.variantTitle": variant.title,
       "content.shopify.taxable": variant.taxable,

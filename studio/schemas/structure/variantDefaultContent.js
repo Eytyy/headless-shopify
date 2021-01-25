@@ -15,6 +15,31 @@ export default {
       title: 'Variant Title',
       type: 'string',
     },
+
+    {
+      name: 'id',
+      title: 'ID',
+      type: 'string',
+      description: 'This comes from Shopify and cannot be changed',
+      readOnly: true,
+      hidden: true,
+    },
+    {
+      name: 'productId',
+      title: 'Product ID',
+      type: 'number',
+      description: 'This comes from Shopify and cannot be changed',
+      readOnly: true,
+      hidden: true,
+    },
+    {
+      name: 'variantId',
+      title: 'Variant ID',
+      type: 'number',
+      description: 'This comes from Shopify and cannot be changed',
+      readOnly: true,
+      hidden: true,
+    },
     {
       title: 'Weight in grams',
       name: 'grams',
@@ -26,12 +51,6 @@ export default {
       name: 'price',
       readOnly: true,
       type: 'string',
-    },
-    {
-      title: 'Variant Id',
-      name: 'variantId',
-      readOnly: true,
-      type: 'number',
     },
     {
       title: 'SKU',

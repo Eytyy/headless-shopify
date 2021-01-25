@@ -1,25 +1,40 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
-import { Wrapper, Inner, Logo } from "./header.styles"
-import Menu from "./menu"
+import PropTypes from "prop-types"
+import { Link } from "gatsby"
+import { AiOutlineShopping } from "react-icons/ai"
+import { useCartCount, useToggleCart } from "../context/siteContext"
 
-const Header = ({ siteTitle }) => (
-  <Wrapper>
-    <Inner>
-      <Link
-        to="/"
-        style={{
-          color: `white`,
-          textDecoration: `none`,
-        }}
-      >
-        <Logo />
-      </Link>
-      <Menu />
-    </Inner>
-  </Wrapper>
-)
+import Menu from "./menu"
+import { Wrapper, Inner, Logo } from "./header.styles"
+import { CartButton, CartDot, CartToggleButton } from "./cart/cart.style"
+
+const Header = ({ siteTitle }) => {
+  const count = useCartCount()
+  const toggleCart = useToggleCart()
+
+  return (
+    <Wrapper>
+      <Inner>
+        <Link
+          to="/"
+          style={{
+            color: `white`,
+            textDecoration: `none`,
+          }}
+        >
+          <Logo />
+        </Link>
+        <Menu />
+        <div>
+          <CartToggleButton onClick={toggleCart}>
+            <AiOutlineShopping />
+            {count > 0 && <CartDot />}
+          </CartToggleButton>
+        </div>
+      </Inner>
+    </Wrapper>
+  )
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
